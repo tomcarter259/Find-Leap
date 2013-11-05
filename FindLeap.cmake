@@ -19,9 +19,6 @@ ENDIF(LEAP_INCLUDE_DIR AND LEAP_LIBRARY)
 
 # Set locations to search
 IF(UNIX)
-    IF(NOT APPLE)
-        MESSAGE(SEND_ERROR "Leap SDK does not support Linux.")
-    ENDIF(NOT APPLE)
     SET(LEAP_INCLUDE_SEARCH_DIRS
         /usr/include
         /usr/local/include
@@ -48,8 +45,12 @@ ENDIF(UNIX)
 IF(APPLE)
     SET(LEAP_LIBRARY_NAME libLeap.dylib)
 ELSE(APPLE)
-    # TODO Different libraries are provided for compile and runtime
-    SET(LEAP_LIBRARY_NAME libLeap.lib)
+    IF(UNIX)
+        SET(LEAP_LIBRARY_NAME libLeap.so)
+    ELSE(UNIX)
+        # TODO Different libraries are provided for compile and runtime
+        SET(LEAP_LIBRARY_NAME libLeap.lib)
+    ENDIF(UNIX)
 ENDIF(APPLE)
 
 IF(NOT LEAP_FIND_QUIETLY)
