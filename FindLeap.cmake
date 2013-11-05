@@ -7,6 +7,8 @@
 # LEAP_FOUND       - Leap was found
 # LEAP_INCLUDE_DIR - Directory containing LEAP header files
 # LEAP_LIBRARY     - Library name of Leap library
+# LEAP_INCLUDE_DIRS- Directories required by CMake convention
+# LEAP_LIBRARIES   - Libraries required by CMake convention
 #
 # Based on the FindFMODEX.cmake of Team Pantheon.
 
@@ -68,23 +70,11 @@ SET(LEAP_INCLUDE_DIR ${LEAP_INCLUDE_DIR} CACHE STRING
     "Directory containing LEAP header files")
 SET(LEAP_LIBRARY ${LEAP_LIBRARY} CACHE STRING "Library name of Leap library")
 
-IF(LEAP_INCLUDE_DIR AND LEAP_LIBRARY)
-    SET(LEAP_FOUND TRUE)
-ENDIF(LEAP_INCLUDE_DIR AND LEAP_LIBRARY)
+SET(LEAP_INCLUDE_DIRS ${LEAP_INCLUDE_DIR} )
+SET(LEAP_LIBRARIES ${LEAP_LIBRARY} )
 
-IF(LEAP_FOUND)
-    IF(NOT LEAP_FIND_QUIETLY)
-        MESSAGE(STATUS "  libraries: ${LEAP_LIBRARY}")
-        MESSAGE(STATUS "  includes: ${LEAP_INCLUDE_DIR}")
-    ENDIF(NOT LEAP_FIND_QUIETLY)
-ELSE(LEAP_FOUND)
-    IF(NOT LEAP_LIBRARY)
-        MESSAGE(SEND_ERROR "Leap library could not be found.")
-    ENDIF(NOT LEAP_LIBRARY)
-    IF(NOT LEAP_INCLUDE_DIR)
-        MESSAGE(SEND_ERROR "Leap include files could not be found.")
-    ENDIF(NOT LEAP_INCLUDE_DIR)
-ENDIF(LEAP_FOUND)
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(Leap DEFAULT_MSG LEAP_LIBRARY LEAP_INCLUDE_DIR)
 
 MARK_AS_ADVANCED(LEAP_INCLUDE_DIR LEAP_LIBRARY)
 
